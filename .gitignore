@@ -1,0 +1,10 @@
+/build
+/ansidb/generate-ansidb
+/approxcompress/compress-approxdb
+/approxdb/raw-db.bin
+/approxgen/generate-approxdb
+/utils/256torgb-text
+/utils/rgbto256
+/utils/rgbto256-text
+/utils/show216
+*.swp
