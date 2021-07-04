@@ -60,7 +60,12 @@ static ExitCode usage(void) {
 }
 
 ExitCode parse_args(
-        int argc, char **argv, const char **path, long *start, long *end) {
+    int argc,
+    char **argv,
+    const char **path,
+    long *start,
+    long *end
+) {
     if (!(argc == 2 || argc == 4)) {
         return usage();
     }

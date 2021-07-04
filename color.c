@@ -60,8 +60,12 @@ static inline double square(double value) {
 }
 
 static void matrix_vector_multiply(
-        const double *matrix, const double *vector, size_t n_rows,
-        size_t n_cols, double *result) {
+    const double *matrix,
+    const double *vector,
+    size_t n_rows,
+    size_t n_cols,
+    double *result
+) {
     for (size_t row = 0; row < n_rows; row++) {
         double sum = 0;
         for (size_t col = 0; col < n_cols; col++) {

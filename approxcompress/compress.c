@@ -120,7 +120,9 @@ bool save_compressed(const char *compressed_db_path, char *uncompressed_data) {
 }
 
 ExitCode save_compressed_or_ecode(
-        const char *compressed_db_path, char *uncompressed_data) {
+    const char *compressed_db_path,
+    char *uncompressed_data
+) {
     if (save_compressed(compressed_db_path, uncompressed_data)) {
         return exitcode_noexit;
     }
@@ -134,7 +136,11 @@ ExitCode usage(void) {
 }
 
 ExitCode parse_args(
-        int argc, char **argv, const char **in_path, const char **out_path) {
+    int argc,
+    char **argv,
+    const char **in_path,
+    const char **out_path
+) {
     if (argc != 3) {
         return usage();
     }
