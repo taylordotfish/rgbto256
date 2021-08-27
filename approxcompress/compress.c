@@ -87,8 +87,8 @@ void write_size(FILE *file, size_t size) {
     fputc(255, file);  // Signals 3-byte size
     // Write a 24-bit (3-byte) integer.
     for (int i = 0; i < 3; i++) {
-        fputc(size & 255, file);
-        size >>= 8;
+        fputc((size & 0xff0000UL) >> 16, file);
+        size <<= 8;
     }
 }
 
