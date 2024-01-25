@@ -19,8 +19,8 @@ BUILD_DIR = build
 BUILD_SUBDIRS = ansidb approxgen approxcompress approxdb utils
 
 CC = gcc
-CFLAGS = -Wall -Wextra -pedantic -std=c99 -O3 -MMD
-LDFLACS =
+CFLAGS += -Wall -Wextra -pedantic -std=c99 -O3 -MMD
+LDFLAGS =
 LDLIBS =
 
 APRGEN_OBJECTS = color.o ansidb/ansidb.o approxgen/ansiapprox.o \

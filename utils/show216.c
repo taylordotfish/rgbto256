@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 taylor.fish <contact@taylor.fish>
+ * Copyright (C) 2021, 2024 taylor.fish <contact@taylor.fish>
  *
  * This file is part of rgbto256.
  *
@@ -21,11 +21,28 @@
 #include "../ansidb/ansidb.h"
 #include <stdbool.h>
 
-#define SHOW_REST false
+#ifndef SHOW216_SHOW_REST
+#define SHOW216_SHOW_REST false
+#endif
 
-void print_cube(FILE *file, int r) {
-    for (int b = 0; b < 6; b++) {
-        for (int g = 0; g < 6; g++) {
+#ifndef SHOW216_C1
+#define SHOW216_C1 r
+#endif
+
+#ifndef SHOW216_C2
+#define SHOW216_C2 g
+#endif
+
+#ifndef SHOW216_C3
+#define SHOW216_C3 b
+#endif
+
+void print_cube(FILE *file, int c3) {
+    for (int c2 = 0; c2 < 6; c2++) {
+        for (int c1 = 0; c1 < 6; c1++) {
+            int SHOW216_C1 = c1;
+            int SHOW216_C2 = c2;
+            int SHOW216_C3 = c3;
             int color = 16 + (36 * r) + (6 * g) + b;
             XYZColor xyz = rgb_to_xyz(srgb_to_rgb(ansi_to_srgb(color)));
             ansi_256_bg(file, color);
@@ -55,14 +72,14 @@ void show_rest(FILE *file) {
 }
 
 int main(void) {
-    for (int r = 0; r < 6; r++) {
-        if (r > 0) {
+    for (int c3 = 0; c3 < 6; c3++) {
+        if (c3 > 0) {
             printf("\n");
         }
-        print_cube(stdout, r);
+        print_cube(stdout, c3);
     }
 
-    #if SHOW_REST
+    #if SHOW216_SHOW_REST
         printf("\n");
         show_rest(stdout);
     #endif
