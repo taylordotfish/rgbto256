@@ -34,8 +34,7 @@ int closest_ansi_to_lab(LabColor lab) {
     return min_ansi;
 }
 
-int closest_ansi_to_rgb(RGBColor rgb) {
-    LabColor lab = rgb_to_srgb_lab(rgb);
+int closest_ansi_to_srgb(SRGBColor srgb) {
+    LabColor lab = srgb_to_lab(srgb);
     return closest_ansi_to_lab(lab);
 }
-

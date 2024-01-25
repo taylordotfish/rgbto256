@@ -37,7 +37,7 @@ ExitCode generate_db(const char *path, long start, long end) {
         int r = (i >> 16) & 255;
         int g = (i >> 8) & 255;
         int b = i & 255;
-        fputc(closest_ansi_to_rgb(rgb_from_ints(r, g, b)), db);
+        fputc(closest_ansi_to_srgb(srgb_from_ints(r, g, b)), db);
 
         i++;
         if (i % 64 == 0 || i == end) {

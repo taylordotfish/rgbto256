@@ -36,7 +36,7 @@ static const char * const file_parts[] = {
     "\n"
     "#include \"ansidb.h\"\n"
     "\n"
-    "const RGBColor ansi_to_rgb_map[] = {\n",
+    "const SRGBColor ansi_to_srgb_map[] = {\n",
 
     "};\n"
     "\n"
@@ -57,44 +57,44 @@ static inline int c216_val_to_rgb256(int val) {
 }
 
 // 16 to 231
-static RGBColor c216_to_rgb(int ansi_num) {
+static SRGBColor c216_to_srgb(int ansi_num) {
     int vals[3];
     int shifted = ansi_num - ANSI_216_START;
     for (size_t i = 0; i < 3; i++) {
         vals[i] = c216_val_to_rgb256(shifted % 6);
         shifted /= 6;
     }
-    return rgb_from_ints(vals[2], vals[1], vals[0]);
+    return srgb_from_ints(vals[2], vals[1], vals[0]);
 }
 
 // 232 to 255
-static RGBColor cgrey_to_rgb(int ansi_num) {
+static SRGBColor cgrey_to_srgb(int ansi_num) {
     int shifted = ansi_num - ANSI_GREY_START;
     int val = shifted * 10 + 8;
-    return rgb_from_ints(val, val, val);
+    return srgb_from_ints(val, val, val);
 }
 
-static RGBColor ansi_to_rgb(int ansi_num) {
+static SRGBColor ansi_to_srgb(int ansi_num) {
     if (ansi_num < ANSI_GREY_START) {
-        return c216_to_rgb(ansi_num);
+        return c216_to_srgb(ansi_num);
     }
-    return cgrey_to_rgb(ansi_num);
+    return cgrey_to_srgb(ansi_num);
 }
 
-static void write_rgb_color(FILE *file, int ansi_num) {
-    RGBColor rgb = ansi_to_rgb(ansi_num);
-    fprintf(file, "    { %a, %a, %a },\n", rgb.r, rgb.g, rgb.b);
+static void write_srgb_color(FILE *file, int ansi_num) {
+    SRGBColor srgb = ansi_to_srgb(ansi_num);
+    fprintf(file, "    { %a, %a, %a },\n", srgb.r, srgb.g, srgb.b);
 }
 
-static void write_rgb_colors(FILE *file) {
+static void write_srgb_colors(FILE *file) {
     for (int i = ANSI_216_START; i <= ANSI_END; i++) {
-        write_rgb_color(file, i);
+        write_srgb_color(file, i);
     }
 }
 
 static void write_lab_color(FILE *file, int ansi_num) {
-    RGBColor rgb = ansi_to_rgb(ansi_num);
-    LabColor lab = rgb_to_srgb_lab(rgb);
+    SRGBColor srgb = ansi_to_srgb(ansi_num);
+    LabColor lab = srgb_to_lab(srgb);
     fprintf(file, "    { %a, %a, %a },\n", lab.L, lab.a, lab.b);
 }
 
@@ -106,7 +106,7 @@ static void write_lab_colors(FILE *file) {
 
 static void (* const write_funcs[])(FILE *) = {
     NULL,
-    write_rgb_colors,
+    write_srgb_colors,
     NULL,
     write_lab_colors,
     NULL,

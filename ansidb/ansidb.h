@@ -27,11 +27,11 @@
 #define ANSI_MAP_OFFSET ANSI_MIN
 #define ANSI_MAP_LEN (ANSI_MAX - ANSI_MAP_OFFSET)
 
-extern const RGBColor ansi_to_rgb_map[];
+extern const SRGBColor ansi_to_srgb_map[];
 extern const LabColor ansi_to_lab_map[];
 
-static inline RGBColor ansi_to_rgb(int ansi_num) {
-    return ansi_to_rgb_map[ansi_num - ANSI_MAP_OFFSET];
+static inline SRGBColor ansi_to_srgb(int ansi_num) {
+    return ansi_to_srgb_map[ansi_num - ANSI_MAP_OFFSET];
 }
 
 static inline LabColor ansi_to_lab(int ansi_num) {

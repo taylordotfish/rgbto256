@@ -36,7 +36,7 @@ ApproxDBInitStatus approxdb_init(void);
 void approxdb_free(void);
 ExitCode approxdb_init_or_ecode(void);
 
-static inline int approxdb_closest_to_rgb(int r, int g, int b) {
+static inline int approxdb_closest_to_srgb(int r, int g, int b) {
     if (r < 0 || g < 0 || b < 0) {
         return -1;
     }

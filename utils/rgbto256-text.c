@@ -49,7 +49,7 @@ ExitCode parse_args(int argc, char **argv, int *r, int *g, int *b) {
 }
 
 void print_rgb_to_ansi(int r, int g, int b) {
-    int ansi_code = approxdb_closest_to_rgb(r, g, b);
+    int ansi_code = approxdb_closest_to_srgb(r, g, b);
     printf("%d\n", ansi_code);
 }
 

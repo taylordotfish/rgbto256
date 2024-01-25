@@ -96,7 +96,7 @@ void handle_match(FILE *in, FILE *out) {
     }
 
     fgetc(in);  // 'm'
-    int closest_ansi = approxdb_closest_to_rgb(r, g, b);
+    int closest_ansi = approxdb_closest_to_srgb(r, g, b);
     if (closest_ansi >= 0) {
         fprintf(out, "%dm", closest_ansi);
     }

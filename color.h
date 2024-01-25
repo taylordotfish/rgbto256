@@ -36,13 +36,13 @@ typedef struct {
     double r;
     double g;
     double b;
-} RGBColor;
+} SRGBColor;
 
 typedef struct {
     double rl;
     double gl;
     double bl;
-} SRGBColor;
+} RGBColor;
 
 typedef struct {
     double x;
@@ -52,18 +52,18 @@ typedef struct {
 
 LChColor lab_to_lch(LabColor lab);
 LabColor lch_to_lab(LChColor lch);
-RGBColor rgb_from_ints(int r, int g, int b);
-void rgb_to_ints(RGBColor rgb, int *r, int *g, int *b);
-SRGBColor rgb_to_srgb(RGBColor rgb);
+SRGBColor srgb_from_ints(int r, int g, int b);
+void srgb_to_ints(SRGBColor srgb, int *r, int *g, int *b);
 RGBColor srgb_to_rgb(SRGBColor srgb);
-XYZColor srgb_to_xyz(SRGBColor srgb);
-SRGBColor xyz_to_srgb(XYZColor xyz);
+SRGBColor rgb_to_srgb(RGBColor rgb);
+XYZColor rgb_to_xyz(RGBColor rgb);
+RGBColor xyz_to_rgb(XYZColor xyz);
 LabColor xyz_to_lab(XYZColor xyz);
 XYZColor lab_to_xyz(LabColor lab);
+LabColor rgb_to_lab(RGBColor rgb);
+RGBColor lab_to_rgb(LabColor lab);
 LabColor srgb_to_lab(SRGBColor srgb);
 SRGBColor lab_to_srgb(LabColor lab);
-LabColor rgb_to_srgb_lab(RGBColor rgb);
-RGBColor lab_to_srgb_rgb(LabColor lab);
 double ciede2000(LabColor lab1, LabColor lab2);
 
 #endif

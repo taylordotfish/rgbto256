@@ -23,13 +23,13 @@
 #include <stdio.h>
 #include <math.h>
 
-static const double srgb_to_xyz_matrix[] = {
+static const double rgb_to_xyz_matrix[] = {
     0.4124, 0.3576, 0.1805,
     0.2126, 0.7152, 0.0722,
     0.0193, 0.1192, 0.9505,
 };
 
-static const double xyz_to_srgb_matrix[] = {
+static const double xyz_to_rgb_matrix[] = {
     3.2406255, -1.537208, -0.4986286,
     -0.9689307, 1.8757561, 0.0415175,
     0.0557101, -0.2040211, 1.0569959,
@@ -92,18 +92,18 @@ LabColor lch_to_lab(LChColor lch) {
     };
 }
 
-RGBColor rgb_from_ints(int r, int g, int b) {
-    return (RGBColor){
+SRGBColor srgb_from_ints(int r, int g, int b) {
+    return (SRGBColor){
         .r = r / 255.0,
         .g = g / 255.0,
         .b = b / 255.0,
     };
 }
 
-void rgb_to_ints(RGBColor rgb, int *r, int *g, int *b) {
-    *r = round(rgb.r * 255.0);
-    *g = round(rgb.g * 255.0);
-    *b = round(rgb.b * 255.0);
+void srgb_to_ints(SRGBColor srgb, int *r, int *g, int *b) {
+    *r = round(srgb.r * 255.0);
+    *g = round(srgb.g * 255.0);
+    *b = round(srgb.b * 255.0);
 }
 
 static inline double srgb_transfer(double value) {
@@ -120,27 +120,27 @@ static inline double srgb_inverse(double value) {
     return pow((value + 0.055) / 1.055, 2.4);
 }
 
-SRGBColor rgb_to_srgb(RGBColor rgb) {
-    return (SRGBColor){
-        .rl = srgb_inverse(rgb.r),
-        .gl = srgb_inverse(rgb.g),
-        .bl = srgb_inverse(rgb.b),
-    };
-}
-
 RGBColor srgb_to_rgb(SRGBColor srgb) {
     return (RGBColor){
-        .r = srgb_transfer(srgb.rl),
-        .g = srgb_transfer(srgb.gl),
-        .b = srgb_transfer(srgb.bl),
+        .rl = srgb_inverse(srgb.r),
+        .gl = srgb_inverse(srgb.g),
+        .bl = srgb_inverse(srgb.b),
     };
 }
 
-XYZColor srgb_to_xyz(SRGBColor srgb) {
+SRGBColor rgb_to_srgb(RGBColor rgb) {
+    return (SRGBColor){
+        .r = srgb_transfer(rgb.rl),
+        .g = srgb_transfer(rgb.gl),
+        .b = srgb_transfer(rgb.bl),
+    };
+}
+
+XYZColor rgb_to_xyz(RGBColor rgb) {
     double xyz_vals[3];
-    double srgb_vals[] = { srgb.rl, srgb.gl, srgb.bl };
+    double rgb_vals[] = { rgb.rl, rgb.gl, rgb.bl };
     matrix_vector_multiply(
-        srgb_to_xyz_matrix, srgb_vals, 3, 3, xyz_vals
+        rgb_to_xyz_matrix, rgb_vals, 3, 3, xyz_vals
     );
     return (XYZColor){
         .x = xyz_vals[0],
@@ -149,16 +149,16 @@ XYZColor srgb_to_xyz(SRGBColor srgb) {
     };
 }
 
-SRGBColor xyz_to_srgb(XYZColor xyz) {
-    double srgb_vals[3];
+RGBColor xyz_to_rgb(XYZColor xyz) {
+    double rgb_vals[3];
     double xyz_vals[] = { xyz.x, xyz.y, xyz.z };
     matrix_vector_multiply(
-        xyz_to_srgb_matrix, xyz_vals, 3, 3, srgb_vals
+        xyz_to_rgb_matrix, xyz_vals, 3, 3, rgb_vals
     );
-    return (SRGBColor){
-        .rl = srgb_vals[0],
-        .gl = srgb_vals[1],
-        .bl = srgb_vals[2],
+    return (RGBColor){
+        .rl = rgb_vals[0],
+        .gl = rgb_vals[1],
+        .bl = rgb_vals[2],
     };
 }
 
@@ -194,20 +194,20 @@ XYZColor lab_to_xyz(LabColor lab) {
     };
 }
 
+LabColor rgb_to_lab(RGBColor rgb) {
+    return xyz_to_lab(rgb_to_xyz(rgb));
+}
+
+RGBColor lab_to_rgb(LabColor lab) {
+    return xyz_to_rgb(lab_to_xyz(lab));
+}
+
 LabColor srgb_to_lab(SRGBColor srgb) {
-    return xyz_to_lab(srgb_to_xyz(srgb));
+    return rgb_to_lab(srgb_to_rgb(srgb));
 }
 
 SRGBColor lab_to_srgb(LabColor lab) {
-    return xyz_to_srgb(lab_to_xyz(lab));
-}
-
-LabColor rgb_to_srgb_lab(RGBColor rgb) {
-    return srgb_to_lab(rgb_to_srgb(rgb));
-}
-
-RGBColor lab_to_srgb_rgb(LabColor lab) {
-    return srgb_to_rgb(lab_to_srgb(lab));
+    return rgb_to_srgb(lab_to_rgb(lab));
 }
 
 static double ciede2000_a_prime(double a, double Cavg_pow7) {

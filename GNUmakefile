@@ -19,7 +19,7 @@ BUILD_DIR = build
 BUILD_SUBDIRS = ansidb approxgen approxcompress approxdb utils
 
 CC = gcc
-CFLAGS = -Wall -Wextra -pedantic -std=c99 -Ofast -MMD
+CFLAGS = -Wall -Wextra -pedantic -std=c99 -O3 -MMD
 LDFLACS =
 LDLIBS =
 
@@ -61,10 +61,10 @@ $(LM_BINARIES): LDLIBS += -lm
 
 ALL_OBJECTS = $(APRGEN_OBJECTS) $(DBGEN_OBJECTS) $(APRCMP_OBJECTS) \
               $(RTO2_OBJECTS) $(SHOW216_OBJECTS) $(2TORT_OBJECTS) \
-			  $(RTO2T_OBJECTS)
+              $(RTO2T_OBJECTS)
 ALL_BINARIES = $(APRGEN_BINARY) $(DBGEN_BINARY) $(APRCMP_BINARY) \
                $(RTO2_BINARY) $(SHOW216_BINARY) $(2TORT_BINARY) \
-			   $(RTO2T_BINARY)
+               $(RTO2T_BINARY)
 
 .PHONY: all
 all: $(ALL_BINARIES)

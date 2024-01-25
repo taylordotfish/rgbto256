@@ -44,16 +44,16 @@ ExitCode parse_args(int argc, char **argv, int *ansi_code) {
     return exitcode_noexit;
 }
 
-void print_ansi_to_rgb(int ansi_code) {
-    RGBColor rgb = ansi_to_rgb(ansi_code);
+void print_ansi_to_srgb(int ansi_code) {
+    SRGBColor srgb = ansi_to_srgb(ansi_code);
     int r = 0, g = 0, b = 0;
-    rgb_to_ints(rgb, &r, &g, &b);
+    srgb_to_ints(srgb, &r, &g, &b);
     printf("%d %d %d\n", r, g, b);
 }
 
 int main(int argc, char **argv) {
     int ansi_code = 0;
     maybe_exit(parse_args(argc, argv, &ansi_code));
-    print_ansi_to_rgb(ansi_code);
+    print_ansi_to_srgb(ansi_code);
     return 0;
 }

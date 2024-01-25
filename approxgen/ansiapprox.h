@@ -24,6 +24,6 @@
 #include "../ansidb/ansidb.h"
 
 int closest_ansi_to_lab(LabColor lab);
-int closest_ansi_to_rgb(RGBColor rgb);
+int closest_ansi_to_srgb(SRGBColor srgb);
 
 #endif
