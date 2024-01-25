@@ -37,7 +37,7 @@ RTO2_OBJECTS = approxdb/approxdb.o approxdb/compressed.o ansicode.o \
                utils/rgbto256.o
 RTO2_BINARY = utils/rgbto256
 
-SHOW216_OBJECTS = utils/show216.o ansicode.o
+SHOW216_OBJECTS = utils/show216.o ansicode.o ansidb/ansidb.o color.o
 SHOW216_BINARY = utils/show216
 
 2TORT_OBJECTS = utils/256torgb-text.o ansidb/ansidb.o color.o utils/utils.o
@@ -56,7 +56,8 @@ SHOW216_OBJECTS := $(addprefix $(BUILD_DIR)/,$(SHOW216_OBJECTS))
 2TORT_OBJECTS := $(addprefix $(BUILD_DIR)/,$(2TORT_OBJECTS))
 RTO2T_OBJECTS := $(addprefix $(BUILD_DIR)/,$(RTO2T_OBJECTS))
 
-LM_BINARIES = $(APRGEN_BINARY) $(DBGEN_BINARY) $(2TORT_BINARY)
+LM_BINARIES = $(APRGEN_BINARY) $(DBGEN_BINARY) $(2TORT_BINARY) \
+              $(SHOW216_BINARY)
 $(LM_BINARIES): LDLIBS += -lm
 
 ALL_OBJECTS = $(APRGEN_OBJECTS) $(DBGEN_OBJECTS) $(APRCMP_OBJECTS) \

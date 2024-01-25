@@ -18,16 +18,18 @@
  */
 
 #include "../ansicode.h"
+#include "../ansidb/ansidb.h"
 #include <stdbool.h>
 
 #define SHOW_REST false
 
-void print_cube(FILE *file, int g) {
-    for (int r = 0; r < 6; r++) {
-        for (int b = 0; b < 6; b++) {
+void print_cube(FILE *file, int r) {
+    for (int b = 0; b < 6; b++) {
+        for (int g = 0; g < 6; g++) {
             int color = 16 + (36 * r) + (6 * g) + b;
+            XYZColor xyz = rgb_to_xyz(srgb_to_rgb(ansi_to_srgb(color)));
             ansi_256_bg(file, color);
-            ansi_256_fg(file, (g < 3) ? 231 : 16);
+            ansi_256_fg(file, (xyz.y <= 0.5) ? 231 : 16);
             fprintf(file, "   %3d   ", color);
         }
         ansi_reset(file);
@@ -53,11 +55,11 @@ void show_rest(FILE *file) {
 }
 
 int main(void) {
-    for (int g = 0; g < 6; g++) {
-        if (g > 0) {
+    for (int r = 0; r < 6; r++) {
+        if (r > 0) {
             printf("\n");
         }
-        print_cube(stdout, g);
+        print_cube(stdout, r);
     }
 
     #if SHOW_REST
