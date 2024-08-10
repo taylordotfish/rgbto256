@@ -276,7 +276,7 @@ double ciede2000(LabColor lab1, LabColor lab2) {
     double SC = 1 + 0.045 * Cavg_p;
     double SH = 1 + 0.015 * Cavg_p * T;
 
-    double Cavg_p_pow7 = pow(Cavg, 7);
+    double Cavg_p_pow7 = pow(Cavg_p, 7);
     double Havg_p_m275_d25 = (Havg_p - 275) / 25;
     double Havg_p_m275_d25_sq = square(Havg_p_m275_d25);
     double RT = (

@@ -78,6 +78,8 @@ $(SHOW216_BINARY): $(SHOW216_OBJECTS)
 $(2TORT_BINARY): $(2TORT_OBJECTS)
 $(RTO2T_BINARY): $(RTO2T_OBJECTS)
 
+$(BUILD_DIR)/approxdb/compressed.o: approxdb/compressed-db.bin
+
 $(ALL_BINARIES):
 	$(CC) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
