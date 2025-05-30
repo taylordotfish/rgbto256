@@ -3,15 +3,16 @@ rgbto256
 
 Not all terminals support 24-bit true color—others support only 256 colors, so
 a conversion must take place. However, when converting from true color to 256,
-[most programs assume that the RGB axes are orthogonal][1] and simply use the
-Euclidean distance to find the “closest” available color, which produces
-slightly inaccurate results.
+[most programs perform a simple Euclidean distance calculation][1] in display
+RGB space, which is not [perceptually uniform][2] and thus produces slightly
+inaccurate results.
 
 rgbto256 accepts true color input and more accurately converts it to 256 colors
-using the [CIEDE2000][2] algorithm.
+using the [CIEDE2000][3] algorithm.
 
-[1]: https://gist.github.com/XVilka/8346728#terminals-that-parse-ansi-color-sequences-but-approximate-them-to-256-palette
-[2]: https://en.wikipedia.org/wiki/Color_difference#CIEDE2000
+[1]: https://github.com/termstandard/colors/blob/master/README.md#note-about-color-differences
+[2]: https://en.wikipedia.org/wiki/Color_difference#Uniform_color_spaces
+[3]: https://en.wikipedia.org/wiki/Color_difference#CIEDE2000
 
 Example
 -------
